@@ -22,7 +22,7 @@ store.on("error", function (error) {
   console.log(error);
 });
 
-const sessionParms = {
+const sessionParams = {
   secret: process.env.SESSION_SECRET,
   resave: true,
   saveUninitialized: true,
@@ -32,10 +32,10 @@ const sessionParms = {
 
 if (app.get("env") === "production") {
   app.set("trust proxy", 1); // trust first proxy
-  sessionParms.cookie.secure = true; // serve secure cookies
+  sessionParams.cookie.secure = true; // serve secure cookies
 }
 
-app.use(session(sessionParms));
+app.use(session(sessionParams));
 app.use(require("connect-flash")());
 
 app.get("/secretWord", (req, res) => {
