@@ -36,7 +36,16 @@ if (app.get("env") === "production") {
 }
 
 app.use(session(sessionParams));
+
+const passport = require("passport");
+const passportInit = require("./passport/passportInit");
+
+passportInit();
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use(require("connect-flash")());
+
 app.use(require("./middleware/storeLocals"));
 app.get("/", (req, res) => {
   res.render("index");
