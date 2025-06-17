@@ -24,19 +24,19 @@ const csrf_options = {
   development_mode: csrf_development_mode,
 };
 
-const csrf_middleware = csrf(csrf_options);
-app.use(csrf_middleware);
-
-app.use((req, res, next) => {
-  res.locals.csrfToken = csrf.token(req, res);
-  next();
-});
-
-app.get("/get_token", (req, res) =>{
-  csrf.refresh(req, res);
-  const csrfToken = csrf.token(req, res);
-  res.json({ csrfToken});
-});
+// const csrf_middleware = csrf(csrf_options);
+// app.use(csrf_middleware);
+// 
+// app.use((req, res, next) => {
+//   res.locals.csrfToken = csrf.token(req, res);
+//   next();
+// });
+// 
+// app.get("/get_token", (req, res) =>{
+//   csrf.refresh(req, res);
+//   const csrfToken = csrf.token(req, res);
+//   res.json({ csrfToken});
+// });
 
 const MongoDBStore = require("connect-mongodb-session")(session);
 const url = process.env.MONGO_URI;
@@ -74,6 +74,20 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(require("connect-flash")());
+
+const csrf_middleware = csrf(csrf_options);
+app.use(csrf_middleware);
+
+app.use((req, res, next) => {
+  res.locals.csrfToken = csrf.token(req, res);
+  next();
+});
+
+app.get("/get_token", (req, res) =>{
+  csrf.refresh(req, res);
+  const csrfToken = csrf.token(req, res);
+  res.json({ csrfToken});
+});
 
 app.use(require("./middleware/storeLocals"));
 app.get("/", (req, res) => {
