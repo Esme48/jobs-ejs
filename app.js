@@ -2,12 +2,35 @@ const express = require("express");
 require("express-async-errors");
 require("dotenv").config(); // to load the .env file into the process.env object
 
+const csrf = require('host-csrf');
+const cookieParser = require("cookie-parser");
+
 const app = express();
 const session = require("express-session");
 
 app.set("view engine", "ejs");
-app.use(require("body-parser").urlencoded({ extended: true }));
+app.use(cookieParser(process.env.SESSION_SECRET));
+app.use(require("body-parser").urlencoded({ extended: false }));
 
+let csrf_development_mode = true;
+if (app.get("env") === "production"){
+  csrf_development_mode = false;
+  app.set("trust proxy", 1);
+}
+
+const csrf_options = {
+  protected_operations: ["PATCH", "POST"],
+  protected_content_types: ["application/json"],
+  development_mode: csrf_development_mode,
+};
+
+const csrf_middleware = csrf(csrf_options);
+app.use(csrf_middleware);
+app.get("/get_token", (req, res) =>{
+  csrf.refresh(req, res);
+  const csrfToken = csrf.token(req, res);
+  res.json({ csrfToken});
+})
 
 const MongoDBStore = require("connect-mongodb-session")(session);
 const url = process.env.MONGO_URI;
