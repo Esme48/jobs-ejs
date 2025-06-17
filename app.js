@@ -62,7 +62,9 @@ app.use(passport.session());
 app.use(require("connect-flash")());
 
 const csrf_middleware = csrf(csrf_options);
+if (!csrf_development_mode) {
 app.use(csrf_middleware);
+};
 
 app.use((req, res, next) => {
   res.locals.csrfToken = csrf.token(req, res);
@@ -75,6 +77,7 @@ app.get("/get_token", (req, res) =>{
   res.json({ csrfToken});
 });
 
+
 app.use(require("./middleware/storeLocals"));
 app.get("/", (req, res) => {
   res.render("index");
@@ -83,9 +86,12 @@ app.use("/sessions", require("./routes/sessionRoutes"));
 
 const auth = require("./middleware/auth");
 const secretWordRouter = require("./routes/secretWord");
-
+ 
 app.use("/secretWord", auth, secretWordRouter);
 app.use("/secretWord", secretWordRouter);
+
+const jobs = require("./routes/jobs");
+app.use("/jobs", jobs);
 
 app.use((req, res) => {
   res.status(404).send(`That page (${req.url}) was not found.`);
