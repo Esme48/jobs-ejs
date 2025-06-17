@@ -24,20 +24,6 @@ const csrf_options = {
   development_mode: csrf_development_mode,
 };
 
-// const csrf_middleware = csrf(csrf_options);
-// app.use(csrf_middleware);
-// 
-// app.use((req, res, next) => {
-//   res.locals.csrfToken = csrf.token(req, res);
-//   next();
-// });
-// 
-// app.get("/get_token", (req, res) =>{
-//   csrf.refresh(req, res);
-//   const csrfToken = csrf.token(req, res);
-//   res.json({ csrfToken});
-// });
-
 const MongoDBStore = require("connect-mongodb-session")(session);
 const url = process.env.MONGO_URI;
 
@@ -60,8 +46,8 @@ const sessionParams = {
 };
 
 if (app.get("env") === "production") {
-  app.set("trust proxy", 1); // trust first proxy
-  sessionParams.cookie.secure = true; // serve secure cookies
+  app.set("trust proxy", 1); 
+  sessionParams.cookie.secure = true; 
 }
 
 app.use(session(sessionParams));
