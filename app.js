@@ -62,9 +62,7 @@ app.use(passport.session());
 app.use(require("connect-flash")());
 
 const csrf_middleware = csrf(csrf_options);
-if (!csrf_development_mode) {
 app.use(csrf_middleware);
-};
 
 app.use((req, res, next) => {
   res.locals.csrfToken = csrf.token(req, res);
