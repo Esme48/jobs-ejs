@@ -12,7 +12,7 @@ const {
 
 router.post("/create", createJob);
 router.get("/edit/:id", editJob);
-router.post("delete/:id", deleteJob);
+router.post("/delete/:id", deleteJob);
 router.get("/", getAllJobs);
 router.post("/update/:id", updateJob);
 router.get("/:id", getJob);
