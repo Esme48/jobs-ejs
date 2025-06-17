@@ -1,3 +1,5 @@
+const Job = require('../models/Job');
+const parseValidationErr = require('./util/parseValidatioinErr');
 
 const createJob = (req, res) =>  {
     res.send("Creating A Job");
