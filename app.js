@@ -26,11 +26,12 @@ const csrf_options = {
 
 const csrf_middleware = csrf(csrf_options);
 app.use(csrf_middleware);
+
 app.get("/get_token", (req, res) =>{
   csrf.refresh(req, res);
   const csrfToken = csrf.token(req, res);
   res.json({ csrfToken});
-})
+});
 
 const MongoDBStore = require("connect-mongodb-session")(session);
 const url = process.env.MONGO_URI;
