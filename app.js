@@ -27,6 +27,11 @@ const csrf_options = {
 const csrf_middleware = csrf(csrf_options);
 app.use(csrf_middleware);
 
+app.use((req, res, next) => {
+  res.locals.csrfToken = csrf.token(req, res);
+  next();
+});
+
 app.get("/get_token", (req, res) =>{
   csrf.refresh(req, res);
   const csrfToken = csrf.token(req, res);
