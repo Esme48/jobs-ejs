@@ -3,7 +3,6 @@ const router = express.Router();
 
 const {
   createJob,
-  editJob,
   deleteJob,
   getAllJobs,
   updateJob,
@@ -11,7 +10,6 @@ const {
 } = require('../controllers/jobs');
 
 router.post("/create", createJob);
-router.get("/edit/:id", editJob);
 router.post("/delete/:id", deleteJob);
 router.get("/", getAllJobs);
 router.post("/update/:id", updateJob);
