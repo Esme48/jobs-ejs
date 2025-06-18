@@ -62,7 +62,7 @@ const getJob = async (req, res) => {
     createdBy: userId,
   })
   if (!job) {
-    return res.status(400).json({ error: `No job with id ${jobId}`});
+    return res.status(404).json({ error: `No job with id ${jobId}`});
   }
   res.status(200).json({ job })
 }
