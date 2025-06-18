@@ -7,8 +7,10 @@ const {
   getAllJobs,
   updateJob,
   getJob,
+  createForm,
 } = require('../controllers/jobs');
 
+router.get("/create", createForm);
 router.post("/create", createJob);
 router.post("/delete/:id", deleteJob);
 router.get("/", getAllJobs);
