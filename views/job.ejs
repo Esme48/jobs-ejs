@@ -3,12 +3,13 @@
 
 <form action="/jobs/create" method="POST">
   <input type="hidden" name="_csrf" value="<%= csrfToken %>" /> 
+
   <input type="text" name="position" placeholder="Job Title" required />
   <input type="text" name="company" placeholder="Company Name" required />
   <button type="submit">Create Job</button>
 
 </form>
 
-
+<a href="/jobs"> Back To Jobs List</a>
 
 <%- include("partials/footer.ejs") %>
