@@ -6,15 +6,15 @@ const {
   deleteJob,
   getAllJobs,
   updateJob,
-  getJob,
   createForm,
+  editForm,
 } = require('../controllers/jobs');
 
-router.get("/create", createForm);
-router.post("/create", createJob);
-router.post("/delete/:id", deleteJob);
 router.get("/", getAllJobs);
+router.get("/new", createForm);
+router.post("/create", createJob);
+router.get("/edit/:id", editForm);
+router.post("/delete/:id", deleteJob);
 router.post("/update/:id", updateJob);
-router.get("/:id", getJob);
 
 module.exports = router;
