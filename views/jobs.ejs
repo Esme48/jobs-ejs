@@ -18,17 +18,12 @@
         <td><%= job.position %></td>
         <td><%= job.status %></td>
         <td>
-            <a href="/jobs/update/<%= job.id %>">
+            <a href="/jobs/edit/<%= job._id %>">
             <button type="button">edit</button>
             </a>
         </td>
         <td>
-            <a href="/jobs/create">
-                <button type="button">create</button>
-            </a>
-        </td>
-        <td>
-            <form method="POST" action="/jobs/delete/<%= job.id %>" style="display: inline"> 
+            <form method="POST" action="/jobs/delete/<%= job._id %>" style="display: inline"> 
                 <button>delete</button> 
                 <input type="hidden" name="_csrf" value="<%= csrfToken %>" /> 
             </form>
