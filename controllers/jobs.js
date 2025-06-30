@@ -3,12 +3,12 @@ const mongoose = require('mongoose');
 //const { StatusCodes } = require('http-status-codes')
 const { BadRequestError, NotFoundError } = require('../errors');
 const getAllJobs = async (req, res) => {
-  const jobs = await Job.find({ createdBy: req.user.userId }).sort('createdAt')
+  const jobs = await Job.find({ createdBy: req.user._id }).sort('createdAt')
   res.render('index', {jobs})
 }
 
 const createJob = async (req, res) => {
-  req.body.createdBy = req.user.userId
+  req.body.createdBy = req.user._id
   await Job.create(req.body)
   res.redirect('/jobs')
 }
@@ -16,7 +16,7 @@ const createJob = async (req, res) => {
 const updateJob = async (req, res) => {
   const {
     body: { company, position },
-    user: { userId },
+    user: { _id },
     params: { id: jobId },
   } = req
 
@@ -24,7 +24,7 @@ const updateJob = async (req, res) => {
     throw new BadRequestError('Company or Position fields cannot be empty')
   }
   const job = await Job.findByIdAndUpdate(
-    { _id: jobId, createdBy: userId },
+    { _id: jobId, createdBy: _id },
     req.body,
     { new: true, runValidators: true }
   )
@@ -36,13 +36,13 @@ const updateJob = async (req, res) => {
 
 const deleteJob = async (req, res) => {
   const {
-    user: { userId },
+    user: { _id },
     params: { id: jobId },
   } = req
 
   const job = await Job.findOneAndDelete({
     _id: jobId,
-    createdBy: userId,
+    createdBy: _id,
   })
   if (!job) {
     throw new NotFoundError(`No job with id ${jobId}`)
@@ -62,7 +62,7 @@ const editForm = async (req, res) => {
 
   const job = await Job.findOne({
     _id: req.params.id,
-    createdBy: req.user.userId,
+    createdBy: req.user._id,
   })
   if (!job) {
     throw new NotFoundError(`No job with id ${req.params.id}`)

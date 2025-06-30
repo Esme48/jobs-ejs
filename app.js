@@ -25,7 +25,11 @@ const csrf_options = {
 };
 
 const MongoDBStore = require("connect-mongodb-session")(session);
-const url = process.env.MONGO_URI;
+//const url = process.env.MONGO_URI;
+let mongoURL = process.env.MONGO_URI;
+if (process.env.NODE_ENV === "test") {
+  mongoURL = process.env.MONGO_URI_TEST;
+}
 
 const store = new MongoDBStore({
   // may throw an error, which won't be caught
