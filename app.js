@@ -79,6 +79,14 @@ app.get("/get_token", (req, res) =>{
   res.json({ csrfToken});
 });
 
+app.use((req, res, next) => {
+  if (req.path == "/multiply") {
+    res.set("Content-Type", "application/json");
+  } else {
+    res.set("Content-Type", "text/html");
+  }
+  next();
+});
 
 app.use(require("./middleware/storeLocals"));
 app.get("/", (req, res) => {
