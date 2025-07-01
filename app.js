@@ -95,6 +95,16 @@ app.use("/secretWord", secretWordRouter);
 const jobs = require("./routes/jobs");
 app.use("/jobs", auth, jobs);
 
+app.get("/multiply", (req, res) => {
+  const result = req.query.first * req.query.second;
+  if (result.isNaN) {
+    result = "NaN";
+  } else if (result == null) {
+    result = "null";
+  }
+  res.json({ result: result });
+});
+
 app.use((req, res) => {
   res.status(404).send(`That page (${req.url}) was not found.`);
 });
@@ -106,10 +116,10 @@ app.use((err, req, res, next) => {
 
 const port = process.env.PORT || 3000;
 
-const start = async () => {
+const start = () => {
   try {
-    await require("./db/connect")(process.env.MONGO_URI);
-    app.listen(port, () =>
+    require("./db/connect")(mongoURL);
+    return app.listen(port, () =>
       console.log(`Server is listening on port ${port}...`)
     );
   } catch (error) {
@@ -118,3 +128,5 @@ const start = async () => {
 };
 
 start();
+
+module.exports = { app };
