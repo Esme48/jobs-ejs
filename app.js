@@ -33,7 +33,7 @@ if (process.env.NODE_ENV === "test") {
 
 const store = new MongoDBStore({
   // may throw an error, which won't be caught
-  uri: url,
+  uri: mongoURL,
   collection: "mySessions",
 });
 
