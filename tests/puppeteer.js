@@ -2,7 +2,7 @@ const puppeteer = require("puppeteer");
 require("../app");
 const { seed_db, testUserPassword } = require("../util/seed_db");
 const Job = require("../models/Job");
-
+const { expect } = await import('chai');
 let testUser = null;
 
 let page = null;
@@ -57,9 +57,20 @@ describe("jobs-ejs puppeteer test", function () {
       console.log("copyright text: ", copyrText);
     });
   });
+
   describe("puppeteer job operations", function () {
-    this.timeout(20000);
-    const { expect } = await import('chai');
-    it("")
+    this.timeout(20000); //Test 1
+    it("Jobs listing page for 20 jobs", async () => {
+      const joblink = await page.waitForSelector("a ::-p-text(Jobs List)");
+      await joblink.click();
+      await page.waitForNavigation();
+                      //Test 2
+      const addButton = await page.waitForSelector("button ::-p-text(Add A Job)");
+      await addButton.click();
+      await page.waitForNavigation();
+
+      const company = await page.waitForSelector('input[name="company"]');
+      const position = await page.waitForSelector('input[name="position"]');
+    })
   })
 });
