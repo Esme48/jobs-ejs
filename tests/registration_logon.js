@@ -92,15 +92,17 @@ describe("tests for registration and logon", function () {
     expect(res.text).to.include(this.user.name);
   });
 
-  it("should log the user off", async function () {
+  it("should log the user off", async () => {
     const { expect, request } = await get_chai();
 
-    const res = await request
+    const req = await request
         .execute(app)
         .post("/session/logoff")
         .set("Cookie", this.csrfToken + ";" + this.sessionCookie)
         .set("content-type", "application/x-www-form-urlencoded")
         .send({ _csrf: this.csrfToken }); //post data
+    
+    const res = await req;
     expect(res).to.have.status(200);
     expect(res.text).to.include("link to logon")
 
